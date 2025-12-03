@@ -1,12 +1,29 @@
 const express = require("express");
-const apiRouter = require("./routes/apiRoute");
+const bodyParser = require("body-parser");
 
 const app = express();
-const port = 3000;
 
-// Use the imported router for all paths
-app.use("/", apiRouter);
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
 
-app.listen(port, () => {
-  console.log(`Lao-Top API running at http://localhost:${port}`);
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// simple route
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to bezkoder application."});
 });
+
+require("./app/routes/product.route.js")(app);
+app.listen(3000, () => {
+  console.log("Server is running on port 3000.");
+});
+
+// const express = require('express');
+// const app = express();
+// app.use(express.json());
+
+// const productRoutes = require('./app/routes/product.route');
+// productRoutes(app);
+
+// app.listen(3000, () => console.log("Server running"));
